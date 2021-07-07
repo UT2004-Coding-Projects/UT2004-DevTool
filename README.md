@@ -30,6 +30,8 @@ EditPackages=3SPNCv42102
 into your UT2004.ini in your local dev system folder.  
 
 # Compiling
+Before compiling delete or backup your projects previous .u package from System folder. I will add auto backup and delete first.
+
 Select your project folder with "Choose Project Folder" (eg 3SPNCv42102)  
 
 Select your project's .ini file "Choose Project .ini" (eg 3SPNCv42102\make.ini)  
