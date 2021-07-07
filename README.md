@@ -5,6 +5,9 @@ There is not much error checking right now but as long as you fill out all the f
 
 Launch UT2004 button is disabled. I don't remember if this is caused by steam integration or something else, but UDEbugger is what you want to use anyway.  
 
+# Visual Studio
+Created in C# using Visual Studio 2019 with WinForms
+
 # Creating A Local Dev Environment
 Select your UT2004 install folder with "Choose UT2004"  
 
