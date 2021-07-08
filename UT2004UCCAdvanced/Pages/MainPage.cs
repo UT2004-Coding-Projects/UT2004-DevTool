@@ -16,6 +16,7 @@ namespace UT2004UCCAdvanced
     public partial class MainPage : Form
     {
         private string _launchOptions;
+        private bool _useLaunchOptions;
         private StringBuilder _uccProcOutput;
         private List<string> _debugPackages = new List<string>
         {
@@ -69,7 +70,11 @@ namespace UT2004UCCAdvanced
             this.textBoxYRes.Text = Properties.Settings.Default.settingLastYRes;
 
             if (Properties.Settings.Default.settingLaunchOptions)
-                this.buttonApplyDebugLaunchOptions_Click(this, new EventArgs());
+                this._useLaunchOptions = true;
+            else
+                this._useLaunchOptions = false;
+
+            this.buttonApplyDebugLaunchOptions_Click(this, new EventArgs());
         }
 
         private void buttonProjectFolder_Click(object sender, EventArgs e)
@@ -203,7 +208,7 @@ namespace UT2004UCCAdvanced
 
             foreach (var pack in this._debugPackages)
             {
-                Stream resourceInput = assembly.GetManifestResourceStream("Unreal2k4UCCAdvanced.Resources." + pack);
+                Stream resourceInput = assembly.GetManifestResourceStream("UT2004UCCAdvanced.Resources." + pack);
                 resourceInput.CopyTo(File.Create(this.textboxDevEnv.Text + "\\System\\" + pack));
             }
         }
@@ -250,7 +255,7 @@ namespace UT2004UCCAdvanced
             udebug.StartInfo.FileName = this.textBoxSystemFolderPath.Text + "\\UDebugger.exe";
 
 
-            //udebug.StartInfo.Arguments = "-windowed '-setres 1280x720'";
+            //udebug.StartInfo.Arguments = "-windowed '-width 1280' '-height 720'";
             udebug.StartInfo.Arguments = this._launchOptions;
 
 
@@ -275,7 +280,7 @@ namespace UT2004UCCAdvanced
 
         private void buttonApplyDebugLaunchOptions_Click(object sender, EventArgs e)
         {
-            if (this.richTextBoxDebugOptions.Text.Equals("Launch Options: OFF"))
+            if (this._useLaunchOptions)
             {
                 this.richTextBoxDebugOptions.Text = "Launch Options: ON";
                 this.richTextBoxDebugOptions.ForeColor = Color.Green;
@@ -300,7 +305,10 @@ namespace UT2004UCCAdvanced
                     res += "x";
                     res += this.textBoxYRes.Text;
                     res += "'";
+                    this._launchOptions += res;
                 }
+
+                this._useLaunchOptions = false;
             }
             else
             {
@@ -311,6 +319,8 @@ namespace UT2004UCCAdvanced
                 this._launchOptions = "";
                 Properties.Settings.Default.settingLaunchOptions = false;
                 Properties.Settings.Default.Save();
+
+                this._useLaunchOptions = true;
             }
         }
 
